@@ -1,0 +1,1 @@
+C:\Users\danie\AppData\Local\Programs\Python\Python312\Scripts\pip %1 %2 %3 %4
