@@ -371,11 +371,35 @@ namespace MessageIngest
 
         public static string CleanAlias(string rawline)
         {
-            
+            string startraw = rawline;
+            rawline = rawline.ToLower();
             rawline = RemoveEscapedQuotes(rawline);
-           
+            rawline = RemoveParentheticals(rawline);
+            rawline = RemoveTrash(rawline);
+            // Console.WriteLine("Source: " + startraw + " -> " + rawline);
             return rawline;
 
+        }
+        public static string RemoveTrash(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            // List of variants to remove
+            string[] variants = { ", inc.", ", inc", " inc.", " inc", ", llc.", " llc.", ", llc", " llc", "adv.", " et al.", " et al", " . " };
+
+            foreach (string variant in variants)
+            {
+                input = input.Replace(variant, "", StringComparison.OrdinalIgnoreCase);
+            }
+
+            // Trim any extra spaces left behind
+            return input.Trim();
+        }
+
+        public static string RemoveParentheticals(string source)
+        {
+            return Regex.Replace(source, @"\s*\(.*?\)\s*", " ").Trim();
         }
         public static string RemoveEscapedQuotes(string rawline)
         { 
@@ -434,6 +458,7 @@ namespace MessageIngest
             int i = 0;
             double similarity = 0;
             int result = -1;
+            // Console.WriteLine("Generated: " + generatedAlias);
             foreach(ClientMatter reference in CMList)
             {
                 double newSimilarity = StringSimilarity.CalculateSimilarity(reference.Alias, generatedAlias);
@@ -447,6 +472,7 @@ namespace MessageIngest
                     }
                     else
                     {
+                       // Console.WriteLine("Swapping: " + reference.Alias);
                         similarity = newSimilarity;
                         result = i;
                     }
@@ -461,6 +487,7 @@ namespace MessageIngest
             clientstr = CMList[result].Client;
             matterstr = CMList[result].Matter;
 
+            // Console.WriteLine("Selected: " + result);
             if(similarity >= .95)
             {
                 return true;

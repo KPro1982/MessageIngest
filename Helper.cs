@@ -287,12 +287,14 @@ namespace MessageIngest
                     // worksheet.Cells[newRow, 17].Value = "Time";
                     worksheet.Cells[newRow, 18].Value = data.narrative;
                     worksheet.Cells[newRow, 19].Value = RemoveExtraLineBreaks(data.body); 
-                    worksheet.Cells[newRow, 20].Value = data.subject; 
+                    worksheet.Cells[newRow, 25].Value = data.alias; 
                     worksheet.Cells[newRow, 21].Value = data.sentdate;
                     worksheet.Cells[newRow, 22].Value = data.attachments; 
                     worksheet.Cells[newRow, 23].Value = data.hasattachments; 
                     worksheet.Cells[newRow, 24].Value = data.domain; 
-                    worksheet.Cells[newRow, 25].Value = data.role; 
+                    worksheet.Cells[newRow, 20].Value = data.role; 
+                    worksheet.Cells[newRow,26].Value =  data.subject;    
+                    
 
                     // Save the changes
                     package.Save();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,9 @@ namespace MessageIngest
         int maxLen = Math.Max(source.Length, target.Length);
 
         // Normalize to a value between 0 and 1
-        return 1.0 - (double)distance / maxLen;
+        double result = 1.0 - (double)distance / maxLen;
+    //    Console.WriteLine("Singularity s:" + source + " [" + result + "] " + target );
+        return result;
     }
 
     private static int LevenshteinDistance(string source, string target)
